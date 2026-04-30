@@ -398,7 +398,7 @@ $(window).ready(function() {
     Swal.fire({
       position: "center",
       icon:  data[r._index].type === "replay" ? "warning" : data[r._index].type === "end" ? "error" : "success",
-      title: data[r._index].type === "replay" ? "Gire outra vez!" : data[r._index].type === "end" ? "Não foi dessa vez!" : `Você ganhou um(a) ${data[r._index].text}!`,
+      title: data[r._index].type === "replay" ? "Gire outra vez!" : data[r._index].type === "end" ? "Não foi dessa vez!" : `Parabéns! você acaba de ganhar: ${data[r._index].text}!`,
       showConfirmButton: true,
       timer: 5000,
     });
