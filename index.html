@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Roleta Premiada</title>
 
 <style>
@@ -15,7 +17,9 @@
 }
 
 body{
+
     background:#f1f1f1;
+
     min-height:100vh;
 
     display:flex;
@@ -29,61 +33,74 @@ body{
 /* BOTÃO ALTERAR */
 
 .topbar{
+
     position:absolute;
-    top:25px;
-    left:25px;
+
+    top:20px;
+    left:20px;
 }
 
 .alterar-btn{
+
     background:#fff;
+
     border:none;
 
-    padding:14px 26px;
+    padding:12px 22px;
 
-    border-radius:14px;
-
-    font-size:18px;
-    font-weight:600;
+    border-radius:12px;
 
     color:#2ea84a;
 
+    font-size:16px;
+    font-weight:700;
+
     cursor:pointer;
 
-    box-shadow:0 4px 12px rgba(0,0,0,.12);
+    box-shadow:0 4px 10px rgba(0,0,0,.12);
 }
 
 /* TITULO */
 
 h1{
-    color:#18873a;
 
     text-align:center;
 
-    margin-bottom:30px;
-
     line-height:1.05;
-}
 
-h1 span{
-    font-size:90px;
-    font-weight:800;
+    margin-bottom:25px;
 }
 
 h1 small{
-    font-size:70px;
+
+    font-size:55px;
+
     font-weight:300;
+
+    color:#18873a;
+}
+
+h1 span{
+
+    font-size:75px;
+
+    font-weight:800;
+
+    color:#18873a;
 }
 
 /* ROLETA */
 
 .wheel-wrapper{
+
     position:relative;
 
-    width:760px;
-    height:760px;
+    width:520px;
+    height:520px;
 }
 
 .pointer{
+
     position:absolute;
 
     top:-5px;
@@ -94,32 +111,32 @@ h1 small{
     width:0;
     height:0;
 
-    border-left:30px solid transparent;
-    border-right:30px solid transparent;
-    border-top:60px solid #fff;
+    border-left:22px solid transparent;
+    border-right:22px solid transparent;
+    border-top:45px solid #fff;
 
     z-index:10;
-
-    filter:drop-shadow(0 4px 4px rgba(0,0,0,.15));
 }
 
 .wheel{
+
     width:100%;
     height:100%;
 
     border-radius:50%;
 
-    border:14px solid #fff;
-
-    position:relative;
+    border:10px solid #fff;
 
     overflow:hidden;
 
+    position:relative;
+
     transition:transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
 
-    box-shadow:0 12px 30px rgba(0,0,0,.18);
+    box-shadow:0 8px 25px rgba(0,0,0,.15);
 
     background: conic-gradient(
+
         #1fa63b 0deg 21deg,
         #c0d61b 21deg 42deg,
         #8cc61e 42deg 63deg,
@@ -137,15 +154,17 @@ h1 small{
         #1fa63b 294deg 315deg,
         #8cc61e 315deg 336deg,
         #c0d61b 336deg 360deg
+
     );
 }
 
 /* TEXTOS */
 
 .label{
+
     position:absolute;
 
-    width:125px;
+    width:95px;
 
     left:50%;
     top:50%;
@@ -154,23 +173,26 @@ h1 small{
 
     color:#fff;
 
-    font-size:13px;
+    font-size:11px;
+
     font-weight:700;
+
+    line-height:1.15;
 
     text-align:center;
 
-    line-height:1.2;
-
-    text-shadow:1px 1px 2px rgba(0,0,0,.35);
+    text-shadow:
+    1px 1px 2px rgba(0,0,0,.4);
 }
 
 /* CENTRO */
 
 .center{
+
     position:absolute;
 
-    width:250px;
-    height:250px;
+    width:160px;
+    height:160px;
 
     background:#fff;
 
@@ -188,36 +210,39 @@ h1 small{
     align-items:center;
     justify-content:center;
 
-    gap:20px;
+    gap:10px;
 
-    border:10px solid #f4f4f4;
-
-    box-shadow:0 0 15px rgba(0,0,0,.08);
+    border:6px solid #f3f3f3;
 }
 
 /* LOGOS */
 
 .logo-guanambi{
-    width:130px;
+
+    width:90px;
+
     object-fit:contain;
 }
 
 .logo-amara{
-    width:180px;
+
+    width:120px;
+
     object-fit:contain;
 }
 
-/* BOTÃO GIRAR NO MEIO */
+/* BOTÃO INVISÍVEL */
 
 .spin-button{
+
     position:absolute;
 
     inset:0;
 
     margin:auto;
 
-    width:250px;
-    height:250px;
+    width:160px;
+    height:160px;
 
     border-radius:50%;
 
@@ -233,45 +258,63 @@ h1 small{
 /* RESULTADO */
 
 .result{
-    margin-top:30px;
 
-    font-size:28px;
+    margin-top:25px;
+
+    font-size:24px;
+
     font-weight:700;
 
     color:#18873a;
 }
 
 </style>
+
 </head>
 
 <body>
 
 <div class="topbar">
-    <button class="alterar-btn" onclick="editarPremios()">
+
+    <button
+        class="alterar-btn"
+        onclick="editarPremios()"
+    >
         ✏️ Alterar
     </button>
+
 </div>
 
 <h1>
+
     <small>Fechou?</small><br>
+
     <span>Rode a roleta!</span>
+
 </h1>
 
 <div class="wheel-wrapper">
 
     <div class="pointer"></div>
 
-    <div class="wheel" id="wheel"></div>
+    <div
+        class="wheel"
+        id="wheel"
+    ></div>
+
+    <!-- CENTRO -->
 
     <div class="center">
 
         <!-- GUANAMBI EM CIMA -->
+
         <img
             src="guanambi-sem-fundo.png"
             class="logo-guanambi"
         >
 
         <!-- AMARA EMBAIXO -->
+
         <img
             src="amara.png"
             class="logo-amara"
@@ -279,16 +322,25 @@ h1 small{
 
     </div>
 
-    <!-- BOTÃO INVISÍVEL NO CENTRO -->
-    <button class="spin-button" onclick="girar()"></button>
+    <!-- BOTÃO GIRAR INVISÍVEL -->
+
+    <button
+        class="spin-button"
+        onclick="girar()"
+    ></button>
 
 </div>
 
-<div class="result" id="resultado"></div>
+<div
+    class="result"
+    id="resultado"
+></div>
 
 <script>
 
-let premios = JSON.parse(localStorage.getItem('premios')) || [
+let premios = JSON.parse(
+    localStorage.getItem("premios")
+) || [
 
     "2 Últimas Parcelas Pagas",
     "JBL Caixa de Som",
@@ -310,26 +362,30 @@ let premios = JSON.parse(localStorage.getItem('premios')) || [
 
 ];
 
-const wheel = document.getElementById("wheel");
+const wheel =
+document.getElementById("wheel");
 
 function renderizarRoleta(){
 
     wheel.innerHTML = "";
 
-    const total = premios.length;
+    const total =
+    premios.length;
 
-    const angulo = 360 / total;
+    const angulo =
+    360 / total;
 
     premios.forEach((premio, i) => {
 
-        const label = document.createElement("div");
+        const label =
+        document.createElement("div");
 
         label.className = "label";
 
         label.style.transform =
         `
         rotate(${angulo * i + angulo/2}deg)
-        translate(255px)
+        translate(178px)
         rotate(90deg)
         `;
 
@@ -349,27 +405,42 @@ let rotacao = 0;
 
 function girar(){
 
-    if(girando || premios.length === 0) return;
+    if(girando || premios.length === 0)
+    return;
 
     girando = true;
 
-    const indice = Math.floor(Math.random() * premios.length);
+    const indice =
+    Math.floor(
+        Math.random() * premios.length
+    );
 
-    const premio = premios[indice];
+    const premio =
+    premios[indice];
 
-    const angulo = 360 / premios.length;
+    const angulo =
+    360 / premios.length;
 
     const parada =
+
         (360 * 6) +
-        (360 - (indice * angulo) - angulo/2);
+
+        (
+            360 -
+            (indice * angulo) -
+            angulo/2
+        );
 
     rotacao += parada;
 
-    wheel.style.transform = `rotate(${rotacao}deg)`;
+    wheel.style.transform =
+    `rotate(${rotacao}deg)`;
 
     setTimeout(() => {
 
-        document.getElementById("resultado").innerHTML =
+        document
+        .getElementById("resultado")
+        .innerHTML =
         `🎉 Resultado: ${premio}`;
 
         /* REMOVE O PRÊMIO */
@@ -391,23 +462,33 @@ function girar(){
 
 function editarPremios(){
 
-    const listaAtual = premios.join("\n");
+    const listaAtual =
+    premios.join("\n");
 
     const novaLista = prompt(
+
 `Edite os prêmios abaixo (1 por linha):`,
+
 listaAtual
+
     );
 
     if(novaLista !== null){
 
         premios = novaLista
-            .split("\n")
-            .map(p => p.trim())
-            .filter(p => p !== "");
+
+        .split("\n")
+
+        .map(p => p.trim())
+
+        .filter(p => p !== "");
 
         localStorage.setItem(
+
             "premios",
+
             JSON.stringify(premios)
+
         );
 
         renderizarRoleta();
