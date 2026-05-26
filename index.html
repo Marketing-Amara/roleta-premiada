@@ -1,503 +1,482 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Roleta Premiada</title>
-
-<style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
-
-body{
-
-    background:#f1f1f1;
-
-    min-height:100vh;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-}
-
-/* BOTÃO ALTERAR */
-
-.topbar{
-
-    position:absolute;
-
-    top:20px;
-    left:20px;
-}
-
-.alterar-btn{
-
-    background:#fff;
-
-    border:none;
-
-    padding:12px 22px;
-
-    border-radius:12px;
-
-    color:#2ea84a;
-
-    font-size:16px;
-    font-weight:700;
-
-    cursor:pointer;
-
-    box-shadow:0 4px 10px rgba(0,0,0,.12);
-}
-
-/* TITULO */
-
-h1{
-
-    text-align:center;
-
-    line-height:1.05;
-
-    margin-bottom:25px;
-}
-
-h1 small{
-
-    font-size:55px;
-
-    font-weight:300;
-
-    color:#18873a;
-}
-
-h1 span{
-
-    font-size:75px;
-
-    font-weight:800;
-
-    color:#18873a;
-}
-
-/* ROLETA */
-
-.wheel-wrapper{
-
-    position:relative;
-
-    width:520px;
-    height:520px;
-}
-
-.pointer{
-
-    position:absolute;
-
-    top:-5px;
-    left:50%;
-
-    transform:translateX(-50%);
-
-    width:0;
-    height:0;
-
-    border-left:22px solid transparent;
-    border-right:22px solid transparent;
-    border-top:45px solid #fff;
-
-    z-index:10;
-}
-
-.wheel{
-
-    width:100%;
-    height:100%;
-
-    border-radius:50%;
-
-    border:10px solid #fff;
-
-    overflow:hidden;
-
-    position:relative;
-
-    transition:transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
-
-    box-shadow:0 8px 25px rgba(0,0,0,.15);
-
-    background: conic-gradient(
-
-        #1fa63b 0deg 21deg,
-        #c0d61b 21deg 42deg,
-        #8cc61e 42deg 63deg,
-        #1fa63b 63deg 84deg,
-        #c0d61b 84deg 105deg,
-        #f2c228 105deg 126deg,
-        #8cc61e 126deg 147deg,
-        #c0d61b 147deg 168deg,
-        #1fa63b 168deg 189deg,
-        #8cc61e 189deg 210deg,
-        #c0d61b 210deg 231deg,
-        #1fa63b 231deg 252deg,
-        #8cc61e 252deg 273deg,
-        #c0d61b 273deg 294deg,
-        #1fa63b 294deg 315deg,
-        #8cc61e 315deg 336deg,
-        #c0d61b 336deg 360deg
-
-    );
-}
-
-/* TEXTOS */
-
-.label{
-
-    position:absolute;
-
-    width:95px;
-
-    left:50%;
-    top:50%;
-
-    transform-origin:0 0;
-
-    color:#fff;
-
-    font-size:11px;
-
-    font-weight:700;
-
-    line-height:1.15;
-
-    text-align:center;
-
-    text-shadow:
-    1px 1px 2px rgba(0,0,0,.4);
-}
-
-/* CENTRO */
-
-.center{
-
-    position:absolute;
-
-    width:160px;
-    height:160px;
-
-    background:#fff;
-
-    border-radius:50%;
-
-    top:50%;
-    left:50%;
-
-    transform:translate(-50%, -50%);
-
-    z-index:5;
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    gap:10px;
-
-    border:6px solid #f3f3f3;
-}
-
-/* LOGOS */
-
-.logo-guanambi{
-
-    width:90px;
-
-    object-fit:contain;
-}
-
-.logo-amara{
-
-    width:120px;
-
-    object-fit:contain;
-}
-
-/* BOTÃO INVISÍVEL */
-
-.spin-button{
-
-    position:absolute;
-
-    inset:0;
-
-    margin:auto;
-
-    width:160px;
-    height:160px;
-
-    border-radius:50%;
-
-    border:none;
-
-    background:transparent;
-
-    z-index:20;
-
-    cursor:pointer;
-}
-
-/* RESULTADO */
-
-.result{
-
-    margin-top:25px;
-
-    font-size:24px;
-
-    font-weight:700;
-
-    color:#18873a;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="topbar">
-
-    <button
-        class="alterar-btn"
-        onclick="editarPremios()"
-    >
-        ✏️ Alterar
-    </button>
-
-</div>
-
-<h1>
-
-    <small>Fechou?</small><br>
-
-    <span>Rode a roleta!</span>
-
-</h1>
-
-<div class="wheel-wrapper">
-
-    <div class="pointer"></div>
-
-    <div
-        class="wheel"
-        id="wheel"
-    ></div>
-
-    <!-- CENTRO -->
-
-    <div class="center">
-
-        <!-- GUANAMBI EM CIMA -->
-
-        <img
-            src="guanambi-sem-fundo.png"
-            class="logo-guanambi"
-        >
-
-        <!-- AMARA EMBAIXO -->
-
-        <img
-            src="amara.png"
-            class="logo-amara"
-        >
-
-    </div>
-
-    <!-- BOTÃO GIRAR INVISÍVEL -->
-
-    <button
-        class="spin-button"
-        onclick="girar()"
-    ></button>
-
-</div>
-
-<div
-    class="result"
-    id="resultado"
-></div>
-
-<script>
-
-let premios = JSON.parse(
-    localStorage.getItem("premios")
-) || [
-
-    "2 Últimas Parcelas Pagas",
-    "JBL Caixa de Som",
-    "R$ 300 PARA GASTAR NA EXPO",
-    "Lavadora WAP de Alta Pressão",
-    "R$ 300 PARA GASTAR NA EXPO",
-    "Vale de R$ 500",
-    "R$ 400 PARA GASTAR NA EXPO",
-    "Cafeteira",
-    "Última Parcela Paga",
-    "Panela de Pressão Elétrica 5L",
-    "R$ 200 PARA GASTAR NA EXPO",
-    "Ar Condicionado 12 Mil BTUs",
-    "R$ 300 PARA GASTAR NA EXPO",
-    "Air Fryer Mondial 12L",
-    "GIRE NOVAMENTE!",
-    "R$ 100,00",
-    "R$ 100,00"
-
-];
-
-const wheel =
-document.getElementById("wheel");
-
-function renderizarRoleta(){
-
-    wheel.innerHTML = "";
-
-    const total =
-    premios.length;
-
-    const angulo =
-    360 / total;
-
-    premios.forEach((premio, i) => {
-
-        const label =
-        document.createElement("div");
-
-        label.className = "label";
-
-        label.style.transform =
-        `
-        rotate(${angulo * i + angulo/2}deg)
-        translate(178px)
-        rotate(90deg)
-        `;
-
-        label.innerHTML = premio;
-
-        wheel.appendChild(label);
-
-    });
-
-}
-
-renderizarRoleta();
-
-let girando = false;
-
-let rotacao = 0;
-
-function girar(){
-
-    if(girando || premios.length === 0)
-    return;
-
-    girando = true;
-
-    const indice =
-    Math.floor(
-        Math.random() * premios.length
-    );
-
-    const premio =
-    premios[indice];
-
-    const angulo =
-    360 / premios.length;
-
-    const parada =
-
-        (360 * 6) +
-
-        (
-            360 -
-            (indice * angulo) -
-            angulo/2
-        );
-
-    rotacao += parada;
-
-    wheel.style.transform =
-    `rotate(${rotacao}deg)`;
-
-    setTimeout(() => {
-
-        document
-        .getElementById("resultado")
-        .innerHTML =
-        `🎉 Resultado: ${premio}`;
-
-        /* REMOVE O PRÊMIO */
-
-        premios.splice(indice, 1);
-
-        localStorage.setItem(
-            "premios",
-            JSON.stringify(premios)
-        );
-
-        renderizarRoleta();
-
-        girando = false;
-
-    }, 5200);
-
-}
-
-function editarPremios(){
-
-    const listaAtual =
-    premios.join("\n");
-
-    const novaLista = prompt(
-
-`Edite os prêmios abaixo (1 por linha):`,
-
-listaAtual
-
-    );
-
-    if(novaLista !== null){
-
-        premios = novaLista
-
-        .split("\n")
-
-        .map(p => p.trim())
-
-        .filter(p => p !== "");
-
-        localStorage.setItem(
-
-            "premios",
-
-            JSON.stringify(premios)
-
-        );
-
-        renderizarRoleta();
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roleta Premiada – Guanambi Solar × Amara NZero</title>
+
+  <script>
+    const LOGO_AMARA = "iVBORw0KGgoAAAANSUhEUgAAAekAAAFWCAYAAABtgdJXAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAEAAElEQVR4nOz9ebyt";
+  </script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Work+Sans:400,700,900">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      overflow: hidden;
+      font-family: 'Work Sans', sans-serif;
+      background: #f4f4f4;
+      background-image:
+        radial-gradient(circle at 15% 15%, rgba(76,175,80,.07) 0%, transparent 55%),
+        radial-gradient(circle at 85% 85%, rgba(27,43,107,.07) 0%, transparent 55%);
     }
 
-}
+    /* ========== ROULETTE WHEEL ========== */
+    .roulette {
+      font-family: "Work Sans", sans-serif;
+      display: block; position: absolute;
+      width: 500px; height: 500px;
+      top: 50%; left: 50%;
+      margin-top: -250px; margin-left: -250px;
+    }
 
-</script>
+    .roulette .shadow {
+      display: block; position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 10px #fff,
+        0 0 0 16px #1B2B6B,
+        0 0 0 20px rgba(255,255,255,.6),
+        0 14px 50px rgba(0,0,0,.28);
+    }
+
+    .roulette .markers {
+      display: block; position: absolute;
+      top: -1px; left: -1px; right: -1px; bottom: -1px;
+      overflow: hidden; border-radius: 100%;
+    }
+
+    /* Golden pointer */
+    .roulette .markers .triangle {
+      width: 0; height: 0;
+      border-style: solid;
+      border-width: 1.4em 0 1.4em 2.1em;
+      border-color: transparent transparent transparent #FFC107;
+      position: absolute;
+      top: 50%; left: -2px; margin-top: -1.4em;
+      filter: drop-shadow(3px 0 7px rgba(0,0,0,.45));
+    }
+
+    .roulette .spinner {
+      display: block; position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      border-radius: 50%; overflow: hidden;
+      transform: rotateZ(0deg);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+
+    /* *** IMPORTANT: updated for 500px wheel *** */
+    .roulette .spinner .item {
+      position: absolute; width: 0; height: 0;
+      top: -250px; left: 250px;
+      transform-origin: 0% 500px;
+      border: 0 solid transparent;
+    }
+
+    .roulette .spinner .item .label {
+      display: block; position: absolute;
+      color: #fff; font-weight: 800;
+      top: 0; left: 0; white-space: nowrap;
+      transform-origin: 0 0;
+      text-shadow: 0 1px 4px rgba(0,0,0,.55);
+    }
+
+    .roulette .spinner .item .label i,
+    .roulette .spinner .item .label .text {
+      display: inline-block; vertical-align: middle;
+      line-height: 1; font-size: 1em; text-indent: 0;
+    }
+    .roulette .spinner .item .label i { margin-right: .1em; }
+    .roulette .spinner .item .label .text {
+      font-size: .63em; white-space: initial;
+      width: 2.9rem; text-align: center;
+      line-height: 1.28; word-wrap: break-word;
+    }
+
+    /* ========== CENTER BUTTON ========== */
+    .roulette .button {
+      width: 10.2em; height: 10.2em;
+      top: 50%; left: 50%;
+      margin-left: -5.1em; margin-top: -5.1em;
+      z-index: 9; position: absolute;
+      background: linear-gradient(150deg, #1f3a80 0%, #0d1f50 100%);
+      border: none; border-radius: 100%;
+      outline: none; cursor: pointer;
+      -webkit-user-select: none; user-select: none;
+      box-shadow:
+        0 0 0 5px rgba(255,255,255,.18),
+        0 0 0 9px #1B2B6B,
+        0 8px 28px rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 2px; padding: 10px;
+      transition: transform .15s cubic-bezier(.68,-.55,.265,1.55),
+                  box-shadow .15s;
+    }
+    .roulette.busy .button {
+      transform: scale(.92);
+      box-shadow:
+        0 0 0 3px rgba(255,255,255,.1),
+        0 0 0 6px #1B2B6B,
+        0 4px 14px rgba(0,0,0,.3);
+      cursor: default;
+    }
+
+    /* center content */
+    #g-logo { width: 68px; height: 50px; }
+    .c-name {
+      color: #fff; font-weight: 900; font-size: 9px;
+      letter-spacing: .07em; font-family: 'Work Sans', sans-serif;
+    }
+    .c-sub {
+      color: #FFC107; font-weight: 700; font-size: 7px;
+      letter-spacing: .3em; font-family: 'Work Sans', sans-serif;
+    }
+    .c-line { width: 56px; height: 1px; background: rgba(255,255,255,.2); margin: 1px 0; }
+    #img-amara { max-width: 66px; max-height: 24px; object-fit: contain; }
+
+    /* ========== ALTERAR BUTTON ========== */
+    .btn-alterar {
+      position: fixed; top: 18px; left: 18px;
+      background: linear-gradient(135deg, #43A047, #2E7D32);
+      color: #fff; padding: 10px 22px;
+      border-radius: 10px; border: none; cursor: pointer;
+      font-family: 'Work Sans', sans-serif;
+      font-weight: 700; font-size: 14px;
+      box-shadow: 0 4px 18px rgba(46,125,50,.45);
+      transition: all .2s ease; z-index: 500;
+      display: flex; align-items: center; gap: 6px;
+      letter-spacing: .02em;
+    }
+    .btn-alterar:hover {
+      background: linear-gradient(135deg, #2E7D32, #1B5E20);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(46,125,50,.55);
+    }
+    .btn-alterar:active { transform: translateY(0); }
+
+    /* ========== SWAL ========== */
+    .swal2-confirm { background-color: #43A047 !important; }
+    .swal2-confirm:focus { box-shadow: 0 0 0 3px rgba(67,160,71,.5) !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Único botão de edição -->
+  <button class="btn-alterar" onclick="handleToggleModalForm()">
+    <span class="material-icons" style="font-size:16px">edit</span>
+    Alterar
+  </button>
+
+  <!-- Roleta -->
+  <div class="roulette">
+    <div class="spinner"></div>
+    <div class="shadow"></div>
+    <div class="markers"><div class="triangle"></div></div>
+    <div class="button" id="roulette-btn">
+
+      <!-- Logo Guanambi Solar (SVG aproximado com bolinhas coloridas) -->
+      <svg id="g-logo" viewBox="0 0 68 60" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="34" cy="3"  r="3.8" fill="#4CAF50"/>
+        <circle cx="46" cy="7"  r="3.8" fill="#8BC34A"/>
+        <circle cx="56" cy="16" r="3.8" fill="#CDDC39"/>
+        <circle cx="62" cy="27" r="3.8" fill="#FFC107"/>
+        <circle cx="62" cy="39" r="3.8" fill="#FF9800"/>
+        <circle cx="51" cy="39" r="3.8" fill="#FF5722"/><!-- crossbar G -->
+        <circle cx="58" cy="50" r="3.8" fill="#4CAF50"/>
+        <circle cx="47" cy="57" r="3.8" fill="#8BC34A"/>
+        <circle cx="34" cy="60" r="3.8" fill="#FFC107"/>
+        <circle cx="21" cy="57" r="3.8" fill="#FF9800"/>
+        <circle cx="11" cy="50" r="3.8" fill="#4CAF50"/>
+        <circle cx="6"  cy="39" r="3.8" fill="#69C71A"/>
+        <circle cx="6"  cy="27" r="3.8" fill="#FFC107"/>
+        <circle cx="11" cy="16" r="3.8" fill="#FF9800"/>
+        <circle cx="21" cy="7"  r="3.8" fill="#4CAF50"/>
+      </svg>
+
+      <div class="c-name">GUANAMBI</div>
+      <div class="c-sub">SOLAR</div>
+      <div class="c-line"></div>
+      <img id="img-amara" alt="Amara NZero">
+    </div>
+  </div>
+
+  <!-- Modal de edição -->
+  <div id="modal-form" class="relative z-10 hidden" role="dialog" aria-modal="true">
+    <div class="fixed inset-0 z-10 overflow-y-auto">
+      <div onclick="handleToggleModalForm()"
+        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+            <form>
+              <div class="space-y-12">
+                <div class="border-b border-gray-900/10 pb-2">
+                  <h2 class="text-base font-semibold leading-7 text-gray-900">Premiações da Roleta</h2>
+                  <p class="mt-1 text-sm leading-6 text-gray-600">Adicione, edite ou remova os prêmios.</p>
+                </div>
+                <div class="border-b border-gray-900/10 pb-12">
+                  <div id="awards" class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"></div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="mt-6 flex items-center justify-end gap-x-6 p-2">
+            <button onclick="handleToggleModalForm()" type="button"
+              class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+            <button onclick="handleSaveButton()" type="submit"
+              class="rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700">
+              Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
+
+  <script>
+  // ===================== LOGOS =====================
+  window.addEventListener('DOMContentLoaded', function () {
+    // Amara NZero logo (base64 embutido no topo)
+    if (typeof LOGO_AMARA !== 'undefined' && LOGO_AMARA.length > 50) {
+      document.getElementById('img-amara').src = 'data:image/png;base64,' + LOGO_AMARA;
+    }
+  });
+
+  // ===================== PRÊMIOS =====================
+  // Prêmios do PDF da Expo Jequié + 2 novos de R$ 100
+  let defaultItems = [
+    { text: 'Air Fryer Mondial 12l' },           // 0 – protegido (sem delete)
+    { text: 'R$ 300 para gastar na Expo' },
+    { text: 'Ar Condicionado 12 Mil BTUs' },
+    { text: 'R$ 200 para gastar na Expo' },
+    { text: 'Panela de Pressão Elétrica 5L' },
+    { text: 'Última Parcela Paga' },
+    { text: 'Cafeteira' },
+    { text: 'R$ 400 para gastar na Expo' },
+    { text: 'Vale de R$ 500' },
+    { text: 'R$ 300 para gastar na Expo' },
+    { text: 'Lavadora WAP Alta Pressão' },
+    { text: 'R$ 200 para gastar na Expo' },
+    { text: 'JBL – Caixa de Som' },
+    { text: '2 Últimas Parcelas Pagas' },
+    { text: 'R$ 100 para gastar na Expo' },      // 14 – NOVO
+    { text: 'R$ 100 para gastar na Expo' },      // 15 – NOVO  ← add button
+    { text: 'Gire Novamente', type: 'replay', ikon: 'replay' }  // 16 – replay
+  ];
+  const defaultItem = { text: '' };
+
+  // ===================== CORES (17 setores únicos) =====================
+  const sectorColors = [
+    '#D81B60',  // Air Fryer        – pink intenso
+    '#1565C0',  // R$300            – azul
+    '#2E7D32',  // Ar Condicionado  – verde escuro
+    '#6A1B9A',  // R$200            – roxo
+    '#AD1457',  // Panela Pressão   – vinho
+    '#F57F17',  // Última Parcela   – âmbar
+    '#00695C',  // Cafeteira        – teal
+    '#B71C1C',  // R$400            – vermelho
+    '#E65100',  // Vale R$500       – laranja escuro
+    '#558B2F',  // R$300            – verde oliva
+    '#4527A0',  // Lavadora WAP     – índigo
+    '#006064',  // R$200            – ciano escuro
+    '#1A237E',  // JBL              – azul marinho
+    '#880E4F',  // 2 Últimas        – magenta escuro
+    '#0277BD',  // R$100 NOVO       – azul
+    '#33691E',  // R$100 NOVO       – verde
+    '#F9A825',  // Gire Novamente   – dourado
+  ];
+
+  // ===================== MODAL =====================
+  function handleToggleModalForm() {
+    document.getElementById('modal-form').classList.toggle('hidden');
+    getItems();
+  }
+
+  function getItems() {
+    try {
+      const saved = window.localStorage.getItem('rouletteItems_guanambi');
+      if (saved) defaultItems = JSON.parse(saved);
+    } catch { /* ignore */ }
+    setItems();
+  }
+
+  function callbackInputChange(e) {
+    const value = e?.target?.value ?? '';
+    const index = parseInt(e?.target?.id?.split('-')[1], 10);
+    defaultItems.splice(index, 1, { ...defaultItems[index], text: value });
+  }
+
+  function addInputsChangeListener() {
+    document.querySelectorAll('.inputs-awards').forEach(el => {
+      el.addEventListener('keyup', callbackInputChange);
+      el.addEventListener('change', callbackInputChange);
+    });
+  }
+  function removeInputsChangeListener() {
+    document.querySelectorAll('.inputs-awards').forEach(el => {
+      el.removeEventListener('keyup', callbackInputChange);
+      el.removeEventListener('change', callbackInputChange);
+    });
+  }
+
+  function setItems() {
+    const divItems = $('#awards');
+    divItems.html('');
+    removeInputsChangeListener();
+    for (let index = 0; index < defaultItems.length; index++) {
+      const item = defaultItems[index];
+      if (item.type === 'replay') continue;
+      const hasDelete  = index !== 0;
+      const hasAdd     = index === defaultItems.length - 2;
+      const itemDiv = `
+        <div class="sm:col-span-full flex justify-between w-full gap-2">
+          <div class="w-full">
+            <input type="text" value="${item.text}" id="item-${index}"
+              class="inputs-awards block w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+          </div>
+          ${hasDelete ? `<button onclick="handleDeleteButton(${index})" type="button"
+            class="rounded-md bg-red-600 p-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500">
+            <i class="material-icons">delete</i></button>` : ''}
+          ${hasAdd ? `<button onclick="handleAddButton()" type="button"
+            class="rounded-md bg-indigo-600 p-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">
+            <i class="material-icons">add</i></button>` : ''}
+        </div>`;
+      divItems.html(divItems.html() + itemDiv);
+    }
+    addInputsChangeListener();
+  }
+
+  function handleDeleteButton(index) {
+    defaultItems.splice(parseInt(index, 10), 1);
+    setItems();
+  }
+  function handleAddButton() {
+    defaultItems.splice(defaultItems.length - 1, 0, defaultItem);
+    setItems();
+  }
+
+  getItems();
+
+  function handleSaveButton() {
+    window.localStorage.setItem('rouletteItems_guanambi', JSON.stringify(defaultItems));
+    handleToggleModalForm();
+    window.location.reload();
+  }
+
+  // ===================== ROULETTE ENGINE =====================
+  var RouletteWheel = function (el, items) {
+    this.$el    = $(el);
+    this.items  = items || [];
+    this._bis   = false;
+    this._angle = 0;
+    this._index = 0;
+    this.options = { angleOffset: -90 };
+  };
+  _.extend(RouletteWheel.prototype, Backbone.Events);
+
+  RouletteWheel.prototype.spin = function (_index) {
+    var count = this.items.length;
+    var delta = 360 / count;
+    var index = !isNaN(parseInt(_index)) ? parseInt(_index) : parseInt(Math.random() * count);
+    var a = index * delta + (this._bis ? 1440 : -1440);
+    this._bis   = !this._bis;
+    this._angle = a;
+    this._index = index;
+    var $spinner = this.$el.find('.spinner');
+    var self = this;
+    $spinner.velocity('stop').velocity({ rotateZ: a + 'deg' }, {
+      easing: 'easeOutQuint',
+      duration: 5000,
+      begin:    function () { self.$el.addClass('busy'); self.trigger('spin:start', self); },
+      complete: function () { self.$el.removeClass('busy'); self.trigger('spin:end', self); }
+    });
+  };
+
+  RouletteWheel.prototype.render = function () {
+    var $spinner = this.$el.find('.spinner');
+    var D = this.$el.width();   // 500
+    var R = D * 0.5;            // 250
+    var count = this.items.length;
+    var delta = 360 / count;
+
+    for (var i = 0; i < count; i++) {
+      var item  = this.items[i];
+      var color = sectorColors[i % sectorColors.length];
+      var html  = [];
+      html.push('<div class="item" data-index="' + i + '" data-type="' + (item.type || '') + '">');
+      html.push('<span class="label">');
+      if (item.ikon) html.push('<i class="material-icons">' + item.ikon + '</i>');
+      html.push('<span class="text">' + item.text + '</span>');
+      html.push('</span></div>');
+
+      var $item = $(html.join(''));
+      var borderTopWidth   = D + D * 0.0025;
+      var deltaRad         = (delta * Math.PI) / 180;
+      var borderRightWidth = D / (1 / Math.tan(deltaRad));
+      var r = delta * (count - i) + this.options.angleOffset - delta * 0.5;
+
+      $item.css({
+        borderTopWidth:   borderTopWidth,
+        borderRightWidth: borderRightWidth,
+        transform:        'scale(2) rotate(' + r + 'deg)',
+        borderTopColor:   color
+      });
+
+      var textH = parseInt(((2 * Math.PI * R) / count) * 0.5);
+      $item.find('.label').css({
+        transform:  'translateY(' + D * -0.25 + 'px) translateX(' + textH * 1.03 + 'px) rotateZ(' + (90 + delta * 0.5) + 'deg)',
+        height:     textH + 'px',
+        lineHeight: textH + 'px',
+        textIndent: R * 0.1 + 'px'
+      });
+      $spinner.append($item);
+    }
+    $spinner.css({ fontSize: parseInt(R * 0.06) + 'px' });
+  };
+
+  RouletteWheel.prototype.bindEvents = function () {
+    this.$el.find('.button').on('click', $.proxy(this.spin, this));
+  };
+
+  // ===================== INIT =====================
+  var rouletteInstance;
+  $(window).ready(function () {
+    rouletteInstance = new RouletteWheel($('.roulette'), defaultItems);
+    rouletteInstance.render();
+    rouletteInstance.bindEvents();
+
+    rouletteInstance.on('spin:end', function (r) {
+      var item = defaultItems[r._index];
+      var isReplay = item.type === 'replay';
+      Swal.fire({
+        position:          'center',
+        icon:              isReplay ? 'warning' : 'success',
+        title:             isReplay
+                             ? '🎯 Gire novamente!'
+                             : '🎉 Parabéns!',
+        text:              isReplay
+                             ? 'Tente a sorte mais uma vez!'
+                             : 'Você ganhou: ' + item.text + '!',
+        showConfirmButton: true,
+        confirmButtonText: isReplay ? 'Vou girar!' : '🥳 Incrível!',
+        timer:             6000,
+        customClass:       { confirmButton: 'swal2-confirm' }
+      });
+    });
+  });
+  </script>
 
 </body>
 </html>
