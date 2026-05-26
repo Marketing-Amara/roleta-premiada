@@ -357,7 +357,7 @@ RouletteWheel.prototype.render = function() {
   var R = D * 0.5;
   var count = this.items.length;
   var delta = 360 / count;
-  var colors = ["#c1d116", "#76bc21", "#00953b"];
+  var colors = ["#D81B60", "#1565C0", "#2E7D32", "#6A1B9A", "#AD1457", "#F57F17", "#00695C", "#B71C1C", "#E65100", "#558B2F", "#4527A0", "#006064", "#1A237E", "#880E4F", "#0277BD", "#33691E", "#F9A825"];
   for (var i = 0; i < count; i++) {
     var item  = this.items[i];
     var color = item.type !== "replay" ? (item.type !== "end" ? colors[i % colors.length] : "#76bc21") : "#ffc000";
