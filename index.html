@@ -443,11 +443,17 @@ $(window).ready(function() {
       sorteadosHoje.itens.push(item.text);
       localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
 
-      data.splice(r._index, 1);
-      defaultItems = data.slice();
-      localStorage.setItem("defaultItems", JSON.stringify(defaultItems));
+ spinner.on("spin:end", function(r) {
+    var item = data[r._index];
+    if (item.type !== "replay") {
+      var hoje = new Date().toISOString().split("T")[0];
+      var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
+      if (sorteadosHoje.data !== hoje) {
+        sorteadosHoje = { data: hoje, itens: [] };
+      }
+      sorteadosHoje.itens.push(item.text);
+      localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
     }
-
     Swal.fire({
       position: "center",
       icon:  item.type === "replay" ? "warning" : item.type === "end" ? "error" : "success",
@@ -460,7 +466,7 @@ $(window).ready(function() {
       }
     });
   });
-});
+
   </script>
 
   <!-- ===================== import_export.js ===================== -->
