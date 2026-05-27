@@ -28,6 +28,15 @@
 @import url("https://fonts.googleapis.com/css?family=Material+Icons|Work+Sans:400,700,900");
 
 body{
+  margin:0;
+
+  background:
+    radial-gradient(circle at top,
+    #1f2937,
+    #111827);
+
+  min-height:100vh;
+
   overflow:hidden;
 }
 
@@ -43,14 +52,14 @@ body{
 
   position:absolute;
 
-  width:520px;
-  height:520px;
+ width:420px;
+height:420px;
 
   top:50%;
   left:50%;
 
-  margin-top:-260px;
-  margin-left:-260px;
+margin-top:-210px;
+margin-left:-210px;
 }
 
 /* SOMBRA */
@@ -68,8 +77,9 @@ body{
 
   border-radius:50%;
 
-  box-shadow:
-  0 0.3em 0 rgba(0,0,0,0.25);
+box-shadow:
+  0 12px 35px rgba(0,0,0,0.45),
+  0 0 0 10px rgba(255,255,255,0.03);
 }
 
 /* MARCADORES */
@@ -97,8 +107,10 @@ body{
   width:0;
   height:0;
 
-  top:-260px;
-  left:260px;
+ top:-210px;
+left:210px;
+
+transform-origin:0% 420px;
 
   transform-origin:0% 520px;
 
@@ -166,8 +178,10 @@ body{
   width:0;
   height:0;
 
-  top:-260px;
-  left:260px;
+top:-210px;
+left:210px;
+
+transform-origin:0% 420px;
 
   transform-origin:0% 520px;
 
@@ -209,9 +223,9 @@ body{
 
   line-height:1.15;
 
-  font-size:0.72em;
+font-size:0.62em;
 
-  width:4rem;
+width:3.2rem;
 
   text-align:center;
 
@@ -239,15 +253,15 @@ body{
 
 .roulette .button{
 
-  width:170px;
-  height:170px;
-
+ width:135px;
+height:135px;
+  
   top:50%;
   left:50%;
 
-  margin-left:-85px;
-  margin-top:-85px;
-
+margin-left:-67.5px;
+margin-top:-67.5px;
+  
   z-index:9;
 
   position:absolute;
@@ -314,7 +328,7 @@ body{
 
   padding:10px;
 
-  gap:10px;
+  gap:6px;
 
   overflow:hidden;
 }
@@ -323,9 +337,9 @@ body{
 
 #img-amara{
 
-  width:95px;
+  width:85px;
 
-  max-height:55px;
+  max-height:42px;
 
   object-fit:contain;
 
@@ -347,13 +361,20 @@ body{
 
 #img-cliente{
 
-  width:130px;
+  width:110px;
 
-  max-height:65px;
+  max-height:50px;
 
   object-fit:contain;
 
   display:block;
+
+  mix-blend-mode:multiply;
+
+  filter:
+    contrast(1.08)
+    saturate(1.05)
+    brightness(1.02);
 }
 
 /* SWEET ALERT */
@@ -750,7 +771,7 @@ RouletteWheel.prototype.spin = function(_index) {
 
 RouletteWheel.prototype.render = function() {
   var $spinner = $(this.$el.find(".spinner"));
-  var D = this.$el.width();
+  var D = 420;
   var R = D * 0.5;
   var count = this.items.length;
   var delta = 360 / count;
@@ -771,10 +792,30 @@ RouletteWheel.prototype.render = function() {
     var deltaInRadians   = (delta * Math.PI) / 180;
     var borderRightWidth = D / (1 / Math.tan(deltaInRadians));
     var r = delta * (count - i) + this.options.angleOffset - delta * 0.5;
-    $item.css({ borderTopWidth: borderTopWidth, borderRightWidth: borderRightWidth, transform: "scale(2) rotate(" + r + "deg)", borderTopColor: color });
-    var textHeight = parseInt(((2 * Math.PI * R) / count) * 0.5);
+ $item.css({
+
+  borderTopWidth: borderTopWidth,
+
+  borderRightWidth: borderRightWidth,
+
+  transform:
+    "scale(2) rotate(" + r + "deg)",
+
+  borderTopColor: color,
+
+  borderRightColor:"transparent",
+
+  borderLeftColor:"transparent",
+
+  borderBottomColor:"transparent",
+
+  outline:"2px solid rgba(255,255,255,0.12)"
+});
+    var textHeight =
+parseInt(((2 * Math.PI * R) / count) * 0.42);
+    
     $item.find(".label").css({
-      transform: "translateY(" + D * -0.25 + "px) translateX(" + textHeight * 1.03 + "px) rotateZ(" + (90 + delta * 0.5) + "deg)",
+      transform: "translateY(" + D * -0.22 + "px) translateX(" + textHeight * 1.03 + "px) rotateZ(" + (90 + delta * 0.5) + "deg)",
       height: textHeight + "px", lineHeight: textHeight + "px", textIndent: R * 0.1 + "px"
     });
     $spinner.append($item);
