@@ -432,39 +432,28 @@ $(window).ready(function() {
   spinner.render();
   spinner.bindEvents();
   spinner.on("spin:end", function(r) {
-    var item = data[r._index];
+  var item = data[r._index];
 
-    if (item.type !== "replay") {
-      var hoje = new Date().toISOString().split("T")[0];
-      var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
-      if (sorteadosHoje.data !== hoje) {
-        sorteadosHoje = { data: hoje, itens: [] };
-      }
-      sorteadosHoje.itens.push(item.text);
-      localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
-
- spinner.on("spin:end", function(r) {
-    var item = data[r._index];
-    if (item.type !== "replay") {
-      var hoje = new Date().toISOString().split("T")[0];
-      var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
-      if (sorteadosHoje.data !== hoje) {
-        sorteadosHoje = { data: hoje, itens: [] };
-      }
-      sorteadosHoje.itens.push(item.text);
-      localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
+  if (item.type !== "replay") {
+    var hoje = new Date().toISOString().split("T")[0];
+    var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
+    if (sorteadosHoje.data !== hoje) {
+      sorteadosHoje = { data: hoje, itens: [] };
     }
-    Swal.fire({
-      position: "center",
-      icon:  item.type === "replay" ? "warning" : item.type === "end" ? "error" : "success",
-      title: item.type === "replay" ? "Gire outra vez!" : item.type === "end" ? "Não foi dessa vez!" : `Parabéns! Você acaba de ganhar: ${item.text}!`,
-      showConfirmButton: true,
-      timer: 5000,
-    }).then(function() {
-      if (item.type !== "replay") {
-        window.location.reload();
-      }
-});
+    sorteadosHoje.itens.push(item.text);
+    localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
+  }
+
+  Swal.fire({
+    position: "center",
+    icon: item.type === "replay" ? "warning" : item.type === "end" ? "error" : "success",
+    title: item.type === "replay" ? "Gire outra vez!" : item.type === "end" ? "Não foi dessa vez!" : `Parabéns! Você acaba de ganhar: ${item.text}!`,
+    showConfirmButton: true,
+    timer: 5000,
+  }).then(function() {
+    if (item.type !== "replay") {
+      window.location.reload();
+    }
   });
 });
 
