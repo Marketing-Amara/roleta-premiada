@@ -261,6 +261,8 @@ let defaultItems = [
   { "text": "VALE R$300" },
   { "text": "AIR FRYER 12L" },
   { "text": "R$100" },
+  { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" },
+  { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" },
   { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" }
 ];
 const defaultItem = { text: "" };
@@ -269,6 +271,15 @@ function getItems() {
   try {
     const items = window.localStorage.getItem("defaultItems");
     if (items) defaultItems = JSON.parse(items);
+
+    // Remove os sorteados hoje
+    var hoje = new Date().toISOString().split("T")[0];
+    var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
+    if (sorteadosHoje.data === hoje && sorteadosHoje.itens?.length) {
+      defaultItems = defaultItems.filter(function(item) {
+        return item.type === "replay" || !sorteadosHoje.itens.includes(item.text);
+      });
+    }
   } catch { return null; }
   setItems();
 }
@@ -414,12 +425,32 @@ $(window).ready(function() {
   spinner.render();
   spinner.bindEvents();
   spinner.on("spin:end", function(r) {
+    var item = data[r._index];
+
+    if (item.type !== "replay") {
+      var hoje = new Date().toISOString().split("T")[0];
+      var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
+      if (sorteadosHoje.data !== hoje) {
+        sorteadosHoje = { data: hoje, itens: [] };
+      }
+      sorteadosHoje.itens.push(item.text);
+      localStorage.setItem("sorteadosHoje", JSON.stringify(sorteadosHoje));
+
+      data.splice(r._index, 1);
+      defaultItems = data.slice();
+      localStorage.setItem("defaultItems", JSON.stringify(defaultItems));
+    }
+
     Swal.fire({
       position: "center",
-      icon:  data[r._index].type === "replay" ? "warning" : data[r._index].type === "end" ? "error" : "success",
-      title: data[r._index].type === "replay" ? "Gire outra vez!" : data[r._index].type === "end" ? "Não foi dessa vez!" : `Parabéns! Você acaba de ganhar: ${data[r._index].text}!`,
+      icon:  item.type === "replay" ? "warning" : item.type === "end" ? "error" : "success",
+      title: item.type === "replay" ? "Gire outra vez!" : item.type === "end" ? "Não foi dessa vez!" : `Parabéns! Você acaba de ganhar: ${item.text}!`,
       showConfirmButton: true,
       timer: 5000,
+    }).then(function() {
+      if (item.type !== "replay") {
+        window.location.reload();
+      }
     });
   });
 });
