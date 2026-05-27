@@ -156,10 +156,18 @@ body { overflow: hidden; }
     <div class="markers"><div class="triangle"></div></div>
     <div class="button" id="roulette-btn">
       <div id="btn-logos">
-        <img id="img-amara"   alt="Amara NZero">
-   <div class="logos-divider" id="logos-divider"></div>
-<img id="img-cliente" alt="Logo Cliente">
-      </div>
+  <img 
+    id="img-amara"
+    src="CAMINHO-DA-LOGO-AMARA.png"
+    alt="Amara NZero">
+
+  <div class="logos-divider"></div>
+
+  <img
+    id="img-cliente"
+    src="CAMINHO-DA-LOGO-CLIENTE.png"
+    alt="Logo Cliente">
+</div>
     </div>
   </div>
 
@@ -225,20 +233,7 @@ body { overflow: hidden; }
 
   <!-- ===================== LOGOS ===================== -->
   <script>
-    window.addEventListener('DOMContentLoaded', function() {
-      // Logo Amara
-      if (LOGO_AMARA) {
-        document.getElementById('img-amara').src = 'data:image/png;base64,' + LOGO_AMARA;
-      }
-      // Logo Cliente
-      if (LOGO_CLIENTE) {
-        var imgCliente = document.getElementById('img-cliente');
-        var divider    = document.getElementById('logos-divider');
-        imgCliente.src = LOGO_CLIENTE;
-        imgCliente.style.display = 'block';
-        divider.style.display    = 'block';
-      }
-    });
+  
   </script>
 
   <!-- ===================== modal.js ===================== -->
