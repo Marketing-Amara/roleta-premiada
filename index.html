@@ -429,7 +429,7 @@ RouletteWheel.prototype.bindEvents = function() {
 
 var spinner;
 $(window).ready(function() {
-  spinner = new RouletteWheel($(".roulette"), data);
+  spinner = new RouletteWheel($(".roulette"), defaultItems);
   spinner.render();
   spinner.bindEvents();
   spinner.on("spin:end", function(r) {
