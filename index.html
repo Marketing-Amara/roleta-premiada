@@ -233,41 +233,27 @@ body { overflow: hidden; }
 
   <!-- ===================== rouletteitems.js ===================== -->
   <script>
-
 let defaultItems = [
-  { "text": "2 PARCELAS
-PAGAS" },
-  { "text": "JBL
-CAIXA SOM" },
-  { "text": "VALE
-R$300" },
-  { "text": "LAVADORA
-WAP" },
-  { "type": "replay", "text": "JOGUE
-NOVAMENTE", "ikon": "replay" },
-  { "text": "VALE
-R$300" },
-  { "text": "VALE
-R$500" },
-  { "text": "VALE
-R$400" },
+  { "text": "2 PARCELAS PAGAS" },
+  { "text": "JBL CAIXA SOM" },
+  { "text": "VALE R$300" },
+  { "text": "LAVADORA WAP" },
+  { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" },
+  { "text": "VALE R$300" },
+  { "text": "VALE R$500" },
+  { "text": "VALE R$400" },
   { "text": "CAFETEIRA" },
   { "text": "R$100" },
-  { "text": "PARCELA
-PAGA" },
-  { "text": "PANELA
-5L" },
-  { "text": "VALE
-R$200" },
-  { "text": "AR
-12 MIL BTUS" },
-  { "text": "VALE
-R$300" },
-  { "text": "AIR FRYER
-12L" },
-  { "text": "R$100" }
+  { "text": "PARCELA PAGA" },
+  { "text": "PANELA 5L" },
+  { "text": "VALE R$200" },
+  { "text": "AR 12 MIL BTUS" },
+  { "text": "VALE R$300" },
+  { "text": "AIR FRYER 12L" },
+  { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" },
+  { "text": "R$100" },
+  { "type": "replay", "text": "JOGUE NOVAMENTE", "ikon": "replay" }
 ];
-
 const defaultItem = { text: "" };
 
 function getItems() {
@@ -308,7 +294,7 @@ function setItems() {
     const itemDiv = `
     <div class="sm:col-span-full flex justify-between w-full gap-2">
       <div class="w-full">
-        <input type="text" value="${item.text.replace(/\n/g, "<br>")}" id="item-${index}"
+        <input type="text" value="${item.text}" id="item-${index}"
           class="inputs-awards block w-full rounded-md border-0 p-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
       </div>
       ${index !== 0 ? `<button onclick="handleDeleteButton(${index})" type="button"
