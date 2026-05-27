@@ -343,6 +343,7 @@ function handleAddButton() {
   setItems();
 }
 getItems();
+data = defaultItems;
 function handleSaveButton() {
   window.localStorage.setItem("defaultItems", JSON.stringify(defaultItems));
   getItems();
@@ -357,7 +358,7 @@ function handleMenu() {
 
   <!-- ===================== roulette.js ===================== -->
   <script>
-var data = defaultItems;
+var data = [];
 
 var RouletteWheel = function(el, items) {
   this.$el    = $(el);
