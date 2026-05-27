@@ -281,15 +281,6 @@ function getItems() {
   try {
     const items = window.localStorage.getItem("defaultItems");
     if (items) defaultItems = JSON.parse(items);
-
-    // Remove os sorteados hoje
-    var hoje = new Date().toISOString().split("T")[0];
-    var sorteadosHoje = JSON.parse(localStorage.getItem("sorteadosHoje") || "{}");
-    if (sorteadosHoje.data === hoje && sorteadosHoje.itens?.length) {
-      defaultItems = defaultItems.filter(function(item) {
-        return item.type === "replay" || !sorteadosHoje.itens.includes(item.text);
-      });
-    }
   } catch { return null; }
   setItems();
 }
