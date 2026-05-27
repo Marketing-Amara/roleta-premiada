@@ -19,632 +19,229 @@
 
   <!-- Fonts & Icons -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons|Work+Sans:400,700,900">
-
   <!-- Tailwind -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
 
   <style>
-
 @import url("https://fonts.googleapis.com/css?family=Material+Icons|Work+Sans:400,700,900");
-
-body{
-  margin:0;
-
-  background:#ffffff;
-
-  min-height:100vh;
-
-  overflow:hidden;
-
-  display:flex;
-
-  justify-content:center;
-
-  align-items:center;
+body { overflow: hidden; }
+.roulette {
+  font-family: "Work Sans", sans-serif;
+  display: block; position: absolute;
+  width: 400px; height: 400px;
+  top: 50%; left: 50%;
+  margin-top: -200px; margin-left: -200px;
 }
-
-/* =========================
-   ROLETA
-========================= */
-
-.roulette{
-
-  font-family:"Work Sans", sans-serif;
-
-  position:absolute;
-
-  width:500px;
-  height:500px;
+.roulette .shadow {
+  display: block; position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  border-radius: 50%;
+  box-shadow: 0 0.3em 0 rgba(0,0,0,0.25);
 }
-
-/* SOMBRA */
-
-.roulette .shadow{
-
-  display:block;
-
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-
-  border-radius:50%;
-
-box-shadow:
-  0 12px 35px rgba(0,0,0,0.45),
-  0 0 0 10px rgba(255,255,255,0.03);
+.roulette .markers {
+  display: block; position: absolute;
+  top:-1px;left:-1px;right:-1px;bottom:-1px;
+  overflow: hidden; border-radius: 100%;
 }
-
-/* MARCADORES */
-
-.roulette .markers{
-
-  display:block;
-
-  position:absolute;
-
-  top:-1px;
-  left:-1px;
-  right:-1px;
-  bottom:-1px;
-
-  overflow:hidden;
-
-  border-radius:100%;
+.roulette .markers .marker {
+  position: absolute; width:0; height:0;
+  top:-200px; left:200px;
+  transform-origin: 0% 400px;
+  border: 0 solid transparent;
 }
-
-.roulette .markers .marker{
-
-  position:absolute;
-
-  width:0;
-  height:0;
-
-  top:-250px;
-  left:250px;
-
-  transform-origin:0% 500px;
-
-  border:0 solid transparent;
+.roulette .markers .triangle {
+  width:0; height:0;
+  border-style: solid;
+  border-width: 1em 0 1em 1em;
+  border-color: transparent transparent transparent #007bff;
+  position: absolute;
+  border-left-color: #fff;
+  top:50%; left:-1px; margin-top:-1em;
+  filter: drop-shadow(0 0.25em 0 rgba(0,0,0,0.25));
 }
-
-/* SETA */
-
-.roulette .markers .triangle{
-
-  width:0;
-  height:0;
-
-  border-style:solid;
-
-  border-width:1.2em 0 1.2em 1.2em;
-
-  border-color:
-  transparent
-  transparent
-  transparent
-  #ffffff;
-
-  position:absolute;
-
-  top:50%;
-  left:-1px;
-
-  margin-top:-1.2em;
-
-  filter:
-  drop-shadow(0 0.25em 0 rgba(0,0,0,0.25));
+.roulette .spinner {
+  display: block; position: absolute;
+  top:0;left:0;right:0;bottom:0;
+  border-radius: 50%; overflow: hidden;
+  transform: rotateZ(0deg);
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
 }
-
-/* SPINNER */
-
-.roulette .spinner{
-
-  display:block;
-
-  position:absolute;
-
-  top:0;
-  left:0;
-  right:0;
-  bottom:0;
-
-  border-radius:50%;
-
-  overflow:hidden;
-
-  transform:rotateZ(0deg);
-
-  -webkit-backface-visibility:hidden;
-
-  backface-visibility:hidden;
+.roulette .spinner .item {
+  position: absolute; width:0; height:0;
+  top:-200px; left:200px;
+  transform-origin: 0% 400px;
+  border: 0 solid transparent;
 }
-
-/* ITENS */
-
-.roulette .spinner .item{
-
-  position:absolute;
-
-  width:0;
-  height:0;
-
-  top:-250px;
-  left:250px;
-
-  transform-origin:0% 500px;
-
-  border:0 solid transparent;
+.roulette .spinner .item .label {
+  display: block; position: absolute;
+  color: #fff; font-weight: 800;
+  top:0; left:0; white-space: nowrap;
+  transform-origin: 0 0; font-size: 0.8em;
 }
-                    
-/* LABEL */
-
-.roulette .spinner .item .label{
-
-  display:block;
-
-  position:absolute;
-
-  color:#ffffff;
-
-  font-weight:800;
-
-  top:0;
-  left:0;
-
-  white-space:nowrap;
-
-  transform-origin:0 0;
-
-  font-size:0.85em;
-
-  text-shadow:
-  1px 1px 2px rgba(0,0,0,.35);
+.roulette .spinner .item .label i,
+.roulette .spinner .item .label .text {
+  display: inline-block; vertical-align: middle;
+  line-height: 1; font-size: 1em; text-indent: 0;
 }
-
-/* TEXTO */
-
-.roulette .spinner .item .label .text{
-
-  display:block;
-
-  width:75px;
-
-  font-size:0.56em;
-
-  line-height:1.15;
-
+.roulette .spinner .item .label i { margin-right: 0.1em; }
+.roulette .button {
+  width:10em; height:10em; line-height:10em;
+  top:50%; left:50%; margin-left:-5em; margin-top:-5em;
+  font-weight:800; z-index:9; position:absolute;
+  background:#fff; border:none; border-radius:100%;
+  color:#999; outline:none; cursor:pointer;
+  -webkit-user-select:none; -moz-user-select:none; user-select:none;
+  box-shadow: 0 0.4em 0 rgba(0,0,0,0.25);
   text-align:center;
-
-  white-space:normal;
-
-  word-break:break-word;
-
-  font-weight:700;
+  transition: transform 0.15s;
+  transition-timing-function: cubic-bezier(0.68,-0.55,0.265,1.55);
+  display:flex; align-items:center; justify-content:center;
 }
-
-/* ÍCONE */
-
-.roulette .spinner .item .label i{
-
-  display:inline-block;
-
-  vertical-align:middle;
-
-  font-size:10px;
-
-  margin-right:0.1em;
+.roulette .button:hover { color: inherit; }
+.roulette .button span { font-size:1.6em; letter-spacing:-0.05em; }
+.roulette.busy .button {
+  transform: scale(0.9);
+  box-shadow: 0 0.15em 0 rgba(0,0,0,0.25);
+  color:#999; cursor:default;
 }
-
-/* =========================
-   BOTÃO CENTRAL
-========================= */
-
-.roulette .button{
-
-  width:150px;
-  height:150px;
-
-  top:50%;
-  left:50%;
-
-  margin-left:-75px;
-  margin-top:-75px;
-
-  z-index:9;
-
-  position:absolute;
-
-  background:#ffffff;
-
-  border:none;
-
-  border-radius:100%;
-
-  outline:none;
-
-  cursor:pointer;
-
-  box-shadow:
-    0 10px 30px rgba(0,0,0,0.30);
-
-  display:flex;
-
-  align-items:center;
-
-  justify-content:center;
-
-  overflow:hidden;
-
-  transition:transform 0.15s;
+/* Labels */
+.roulette .spinner .item .label .text {
+  font-size:0.6em; white-space:initial;
+  width:2.5rem; text-align:center;
+  line-height:1.2; word-wrap:break-word;
 }
+.roulette .spinner .item .label i { font-size:12px; }
+.swal2-confirm { background-color: #00953b !important; }
+.swal2-confirm:focus { box-shadow: 0 0 0 3px rgba(0,149,59,0.5) !important; }
 
-.roulette .button:hover{
-  transform:scale(1.02);
+/* Botão com logos */
+#btn-logos {
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  gap:6px; padding:6px;
 }
-
-/* BOTÃO GIRANDO */
-
-.roulette.busy .button{
-
-  transform:scale(0.95);
-
-  box-shadow:
-  0 0.15em 0 rgba(0,0,0,0.25);
-
-  cursor:default;
+#btn-logos img {
+  max-width:140px; max-height:70px; object-fit:contain;
 }
-
-/* =========================
-   LOGOS CENTRALIZADAS
-========================= */
-
-#btn-logos{
-
-  display:flex;
-
-  flex-direction:column;
-
-  align-items:center;
-
-  justify-content:center;
-
-  width:100%;
-  height:100%;
-
-  padding:12px;
-
-  gap:6px;
+.logos-divider {
+  width:60px; height:1px; background:#e0e0e0;
 }
-
-/* LOGO SUPERIOR */
-
-#img-amara{
-
-  width:90px;
-
-  max-height:40px;
-
-  object-fit:contain;
-
-  display:block;
-}
-
-/* DIVISÓRIA */
-
-.logos-divider{
-
-  width:60px;
-
-  height:1px;
-
-  background:#dddddd;
-}
-
-/* LOGO INFERIOR */
-
-#img-cliente{
-
-  width:100px;
-
-  max-height:45px;
-
-  object-fit:contain;
-
-  display:block;
-
-  mix-blend-mode:multiply;
-
-  filter:
-    contrast(1.05)
-    brightness(1.02);
-}
-
-/* SWEET ALERT */
-
-.swal2-confirm{
-  background-color:#00953b !important;
-}
-
-.swal2-confirm:focus{
-  box-shadow:
-  0 0 0 3px rgba(0,149,59,0.5) !important;
-}
-
   </style>
-
 </head>
 
 <body>
 
-  <!-- ROLETA -->
-
   <div class="roulette">
-
     <div class="spinner"></div>
-
     <div class="shadow"></div>
-
-    <div class="markers">
-      <div class="triangle"></div>
-    </div>
-
-    <!-- BOTÃO CENTRAL -->
-
+    <div class="markers"><div class="triangle"></div></div>
     <div class="button" id="roulette-btn">
-
       <div id="btn-logos">
-
-        <!-- LOGO SUPERIOR -->
-
-        <img
-          id="img-amara"
-          alt="Amara NZero"
-        >
-
-        <!-- DIVISÓRIA -->
-
-        <div
-          class="logos-divider"
-          id="logos-divider"
-          style="display:none"
-        ></div>
-
-        <!-- LOGO INFERIOR -->
-
-        <img
-          id="img-cliente"
-          alt="Logo Cliente"
-          style="display:none"
-        >
-
+        <img id="img-amara"   alt="Amara NZero">
+        <div class="logos-divider" id="logos-divider" style="display:none"></div>
+        <img id="img-cliente" alt="Logo Cliente" style="display:none">
       </div>
-
     </div>
-
   </div>
 
-  <!-- MENU -->
-
+  <!-- Menu -->
   <div class="flex justify-start gap-2 items-start p-2 flex-wrap">
-
-    <button
-      onclick="handleMenu()"
-      type="button"
-      class="rounded-md bg-white p-1 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
-    >
+    <button onclick="handleMenu()" type="button"
+      class="rounded-md bg-white p-1 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
       <i class="material-icons text-xs">menu</i>
     </button>
-
-    <div
-      id="menu"
-      class="flex justify-start gap-2 items-start hidden flex-wrap"
-    >
-
-      <button
-        onclick="handleToggleModalForm()"
-        type="button"
-        class="rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
-      >
+    <div id="menu" class="flex justify-start gap-2 items-start hidden flex-wrap">
+      <button onclick="handleToggleModalForm()" type="button"
+        class="rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
         Alterar
       </button>
-
-      <label
-        for="file-upload"
-        class="cursor-pointer rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
-      >
-        <i class="material-icons text-xs">upload</i>
-
-        Importar Config
-
-        <input
-          id="file-upload"
-          name="file-upload"
-          type="file"
-          class="sr-only"
-        >
+      <label for="file-upload"
+        class="cursor-pointer rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+        <i class="material-icons text-xs">upload</i> Importar Config
+        <input id="file-upload" name="file-upload" type="file" class="sr-only">
       </label>
-
-      <button
-        onclick="fileDownloader()"
-        class="rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50"
-      >
-        <i class="material-icons text-xs">download</i>
-
-        Exportar Config.
+      <button onclick="fileDownloader()"
+        class="rounded-md bg-white px-2.5 py-1.5 text-xs font-semibold text-gray-200 shadow-sm ring-1 ring-inset ring-gray-200 hover:bg-gray-50">
+        <i class="material-icons text-xs">download</i> Exportar Config.
       </button>
-
     </div>
-
   </div>
 
-  <!-- MODAL -->
-
-  <div
-    id="modal-form"
-    class="relative z-10 hidden"
-    aria-labelledby="modal-title"
-    role="dialog"
-    aria-modal="true"
-  >
-
+  <!-- Modal -->
+  <div id="modal-form" class="relative z-10 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 z-10 overflow-y-auto">
-
-      <div
-        onclick="handleToggleModalForm()"
-        class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-      ></div>
-
+      <div onclick="handleToggleModalForm()" class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-
         <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-
           <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-
             <form>
-
               <div class="space-y-12">
-
                 <div class="border-b border-gray-900/10 pb-2">
-
-                  <h2 class="text-base font-semibold leading-7 text-gray-900">
-                    Premiações da Roleta
-                  </h2>
-
-                  <p class="mt-1 text-sm leading-6 text-gray-600">
-                    Aqui você pode remover, adicionar ou editar as premiações da roleta.
-                  </p>
-
+                  <h2 class="text-base font-semibold leading-7 text-gray-900">Premiações da Roleta</h2>
+                  <p class="mt-1 text-sm leading-6 text-gray-600">Aqui você pode remover, adicionar ou editar as premiações da roleta.</p>
                 </div>
-
                 <div class="border-b border-gray-900/10 pb-12">
-
-                  <div
-                    id="awards"
-                    class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
-                  ></div>
-
+                  <div id="awards" class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"></div>
                 </div>
-
               </div>
-
             </form>
-
           </div>
-
           <div class="mt-6 flex items-center justify-end gap-x-6 p-2">
-
-            <button
-              onclick="handleToggleModalForm()"
-              type="button"
-              class="text-sm font-semibold leading-6 text-gray-900"
-            >
-              Cancelar
-            </button>
-
-            <button
-              onclick="handleSaveButton()"
-              type="submit"
-              class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500"
-            >
-              Salvar
-            </button>
-
+            <button onclick="handleToggleModalForm()" type="button"
+              class="text-sm font-semibold leading-6 text-gray-900">Cancelar</button>
+            <button onclick="handleSaveButton()" type="submit"
+              class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500">Salvar</button>
           </div>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
 
   <!-- CDN Scripts -->
-
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.5.0/velocity.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.3.3/backbone-min.js"></script>
 
   <!-- ===================== LOGOS ===================== -->
-
   <script>
-
-    window.addEventListener('DOMContentLoaded', function(){
-
-      /* LOGO SUPERIOR */
-
-      if(LOGO_AMARA){
-
-        document.getElementById('img-amara').src =
-        'data:image/png;base64,' + LOGO_AMARA;
+    window.addEventListener('DOMContentLoaded', function() {
+      // Logo Amara
+      if (LOGO_AMARA) {
+        document.getElementById('img-amara').src = 'data:image/png;base64,' + LOGO_AMARA;
       }
-
-      /* LOGO INFERIOR */
-
-      if(LOGO_CLIENTE){
-
-        var imgCliente =
-        document.getElementById('img-cliente');
-
-        var divider =
-        document.getElementById('logos-divider');
-
+      // Logo Cliente
+      if (LOGO_CLIENTE) {
+        var imgCliente = document.getElementById('img-cliente');
+        var divider    = document.getElementById('logos-divider');
         imgCliente.src = LOGO_CLIENTE;
-
         imgCliente.style.display = 'block';
-
-        divider.style.display = 'block';
+        divider.style.display    = 'block';
       }
-
     });
-
   </script>
 
   <!-- ===================== modal.js ===================== -->
-
   <script>
-
-    function handleToggleModalForm(){
-
-      const modal =
-      document.getElementById("modal-form");
-
+    function handleToggleModalForm() {
+      const modal = document.getElementById("modal-form");
       modal.classList.toggle("hidden");
-
       getItems();
     }
-
   </script>
 
   <!-- ===================== rouletteitems.js ===================== -->
   <script>
 let defaultItems = [
-  { "text": "2 Últimas Parcelas Pagas" },
-  { "text": "JBL Caixa de Som" },
-  { "text": "R$ 300 PARA GASTAR NA EXPO" },
-  { "text": "Lavadora WAP de Alta Pressão" },
-  { "text": "R$ 300 PARA GASTAR NA EXPO" },
-  { "text": "Vale de R$ 500" },
-  { "text": "R$ 400 PARA GASTAR NA EXPO" },
-  { "text": "Cafeteira" },
-  { "text": "R$ 100,00" },
-  { "text": "Última Parcela Paga" },
-  { "text": "Panela de Pressão Elétrica 5L" },
-  { "text": "R$ 200 PARA GASTAR NA EXPO" },
-  { "text": "Ar Condicionado 12 Mil BTUs" },
-  { "text": "R$ 300 PARA GASTAR NA EXPO" },
-  { "text": "Air Fryer Mondial 12L" },
-  { "text": "GIRE NOVAMENTE!" },
-  { "text": "R$ 100,00" },
+  { "text": "Porta celular ecológico" },
+  { "text": "Caneta ecológica" },
+  { "text": "Copo ecológico" },
+  { "text": "Porta celular ecológico" },
+  { "text": "Sacochila ecológica" },
+  { "text": "Caneta ecológica" },
+  { "text": "Copo ecológico" },
+  { "text": "Porta celular ecológico" },
   { "type": "replay", "text": "Jogue Novamente", "ikon": "replay" }
 ];
 const defaultItem = { text: "" };
@@ -756,11 +353,11 @@ RouletteWheel.prototype.spin = function(_index) {
 
 RouletteWheel.prototype.render = function() {
   var $spinner = $(this.$el.find(".spinner"));
-  var D = 500;
+  var D = this.$el.width();
   var R = D * 0.5;
   var count = this.items.length;
   var delta = 360 / count;
-  var colors = ["#D81B60", "#1565C0", "#2E7D32", "#6A1B9A", "#AD1457", "#F57F17", "#00695C", "#B71C1C", "#E65100", "#558B2F", "#4527A0", "#006064", "#1A237E", "#880E4F", "#0277BD", "#33691E", "#F9A825"];
+  var colors = ["#c1d116", "#76bc21", "#00953b"];
   for (var i = 0; i < count; i++) {
     var item  = this.items[i];
     var color = item.type !== "replay" ? (item.type !== "end" ? colors[i % colors.length] : "#76bc21") : "#ffc000";
@@ -777,47 +374,12 @@ RouletteWheel.prototype.render = function() {
     var deltaInRadians   = (delta * Math.PI) / 180;
     var borderRightWidth = D / (1 / Math.tan(deltaInRadians));
     var r = delta * (count - i) + this.options.angleOffset - delta * 0.5;
- $item.css({
-
-  borderTopWidth: borderTopWidth,
-
-  borderRightWidth: borderRightWidth,
-
-  transform:
-    "scale(2) rotate(" + r + "deg)",
-
-  borderTopColor: color,
-
-  borderRightColor:"transparent",
-
-  borderLeftColor:"transparent",
-
-  borderBottomColor:"transparent",
-});
-   var textHeight =
-parseInt(((2 * Math.PI * R) / count) * 0.38);
-    
-   $item.find(".label").css({
-
-  transform:
-    "translateY(" + D * -0.34 + "px) " +
-    "translateX(" + textHeight * 0.72 + "px) " +
-    "rotateZ(" + (90 + delta * 0.5) + "deg)",
-
-  height:textHeight + "px",
-
-  lineHeight:textHeight + "px",
-
-  width:"90px",
-
-  display:"flex",
-
-  alignItems:"center",
-
-  justifyContent:"center",
-
-  textAlign:"center"
-});
+    $item.css({ borderTopWidth: borderTopWidth, borderRightWidth: borderRightWidth, transform: "scale(2) rotate(" + r + "deg)", borderTopColor: color });
+    var textHeight = parseInt(((2 * Math.PI * R) / count) * 0.5);
+    $item.find(".label").css({
+      transform: "translateY(" + D * -0.25 + "px) translateX(" + textHeight * 1.03 + "px) rotateZ(" + (90 + delta * 0.5) + "deg)",
+      height: textHeight + "px", lineHeight: textHeight + "px", textIndent: R * 0.1 + "px"
+    });
     $spinner.append($item);
   }
   $spinner.css({ fontSize: parseInt(R * 0.06) + "px" });
