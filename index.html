@@ -30,12 +30,7 @@
 body{
   margin:0;
 
-  background:
-    radial-gradient(
-      circle at top,
-      #1f2937,
-      #111827
-    );
+  background:#ffffff;
 
   min-height:100vh;
 
@@ -213,21 +208,21 @@ box-shadow:
 
 .roulette .spinner .item .label .text{
 
-  display:inline-block;
+  display:block;
 
-  vertical-align:middle;
+  width:75px;
 
-  line-height:1.1;
+  font-size:0.56em;
 
-  font-size:0.58em;
-
-  width:3.2rem;
+  line-height:1.15;
 
   text-align:center;
 
   white-space:normal;
 
   word-break:break-word;
+
+  font-weight:700;
 }
 
 /* ÍCONE */
@@ -238,7 +233,7 @@ box-shadow:
 
   vertical-align:middle;
 
-  font-size:12px;
+  font-size:10px;
 
   margin-right:0.1em;
 }
@@ -799,13 +794,30 @@ RouletteWheel.prototype.render = function() {
 
   borderBottomColor:"transparent",
 });
-    var textHeight =
-parseInt(((2 * Math.PI * R) / count) * 0.45);
+   var textHeight =
+parseInt(((2 * Math.PI * R) / count) * 0.38);
     
-    $item.find(".label").css({
-      transform: "translateY(" + D * -0.30 + "px) translateX(" + textHeight * 1.03 + "px) rotateZ(" + (90 + delta * 0.5) + "deg)",
-      height: textHeight + "px", lineHeight: textHeight + "px", textIndent: R * 0.1 + "px"
-    });
+   $item.find(".label").css({
+
+  transform:
+    "translateY(" + D * -0.34 + "px) " +
+    "translateX(" + textHeight * 0.72 + "px) " +
+    "rotateZ(" + (90 + delta * 0.5) + "deg)",
+
+  height:textHeight + "px",
+
+  lineHeight:textHeight + "px",
+
+  width:"90px",
+
+  display:"flex",
+
+  alignItems:"center",
+
+  justifyContent:"center",
+
+  textAlign:"center"
+});
     $spinner.append($item);
   }
   $spinner.css({ fontSize: parseInt(R * 0.06) + "px" });
