@@ -33,10 +33,9 @@ html, body {
 }
 .roulette {
   font-family: "Work Sans", sans-serif;
-  display: block; position: fixed;
-  width: 400px; height: 400px;
-  top: 50%; left: 50%;
-  margin-top: -200px; margin-left: -200px;
+  position: relative;
+  width: min(80vw, 500px);
+  height: min(80vw, 500px);
 }
 .roulette .shadow {
   display: block; position: absolute;
@@ -51,8 +50,9 @@ html, body {
 }
 .roulette .markers .marker {
   position: absolute; width:0; height:0;
-  top:-200px; left:200px;
-  transform-origin: 0% 400px;
+top:50%;
+left:50%;
+transform-origin: 0% 100%;
   border: 0 solid transparent;
 }
 .roulette .markers .triangle {
